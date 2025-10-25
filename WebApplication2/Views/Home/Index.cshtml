@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Importe a nota</h1>
+    <input type="file" id="arquivoXml" accept=".xml" />
+    <button id="btnEnviar">enviar</button>
+</div>
+
+
+
+
+@section Scripts {
+    <script>
+
+        $("#btnEnviar").click(function () {
+            var arquivo = $("#arquivoXml")[0].files[0];
+
+            if (!arquivo) {
+                alert("Selecione um arquivo XML antes de enviar.");
+                return;
+            }
+
+            var formData = new FormData();
+            formData.append("arquivoXml", arquivo);
+
+            $.ajax({
+                url: '/AppLeituraXml/InserirDadosDoArquivo',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (resultado) {
+                    alert("Arquivo enviado com sucesso!");
+                    console.log(resultado);
+                },
+                error: function (erro) {
+                    alert("Erro ao enviar arquivo!");
+                    console.log(erro);
+                }
+            });
+        });
+    </script>
+}
