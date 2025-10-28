@@ -1,4 +1,5 @@
-﻿using WebApplication2.Data;
+﻿using Microsoft.Data.SqlClient;
+using WebApplication2.Data;
 using WebApplication2.Models;
 
 namespace WebApplication2.Repository
@@ -14,21 +15,19 @@ namespace WebApplication2.Repository
 
         public void Insert(InformacoesXml dados)
         {
-            var query = $@"
-            INSERT INTO dados_xml 
-            (Nome, CnpjPrestador, CnpjTomador, DataEmissao, DescricaoServico, ValorTotal) 
-            VALUES 
-            (
-                '{dados.NumeroNota}', 
-                '{dados.CnpjPrestador}', 
-                '{dados.CnpjTomador}', 
-                '{dados.DataEmissao:yyyy-MM-dd}', 
-                '{dados.DescricaoServico}', 
-                {dados.ValorTotal}
-            )";
+            using (var conn = _db.GetConnection())
+            using (var cmd = new SqlCommand("INSERT INTO dados_xml (NumeroNota, CnpjPrestador, CnpjTomador, DataEmissao, DescricaoServico, ValorTotal) VALUES (@NumeroNota, @CnpjPrestador, @CnpjTomador, @DataEmissao, @DescricaoServico, @ValorTotal)", conn))
+            {
+                cmd.Parameters.AddWithValue("@NumeroNota", dados.NumeroNota);
+                cmd.Parameters.AddWithValue("@CnpjPrestador", dados.CnpjPrestador);
+                cmd.Parameters.AddWithValue("@CnpjTomador", dados.CnpjTomador);
+                cmd.Parameters.AddWithValue("@DataEmissao", DateTime.Parse(dados.DataEmissao));
+                cmd.Parameters.AddWithValue("@DescricaoServico", dados.DescricaoServico);
+                cmd.Parameters.AddWithValue("@ValorTotal", dados.ValorTotal);
 
-            _db.ExecuteNonQuery(query);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
         }
-
     }
 }
