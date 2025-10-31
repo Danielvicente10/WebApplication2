@@ -4,11 +4,11 @@ using WebApplication2.Models;
 
 namespace WebApplication2.Repository
 {
-    public class DataXml
+    public class DataXmlRepository
     {
         private readonly Database _db;
 
-        public DataXml(Database db)
+        public DataXmlRepository(Database db)
         {
             _db = db;
         }

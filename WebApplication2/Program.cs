@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddSingleton<Database>(new Database(builder.Configuration));
-builder.Services.AddScoped<DataXml>();
+builder.Services.AddScoped<DataXmlRepository>();
 builder.Services.AddScoped<AppLeituraXmlService>();
 
 var app = builder.Build();

@@ -7,9 +7,9 @@ namespace WebApplication2.Services
 {
     public class AppLeituraXmlService
     {
-        private readonly DataXml _dataXml;
+        private readonly DataXmlRepository _dataXml;
 
-        public AppLeituraXmlService(DataXml dataXml)
+        public AppLeituraXmlService(DataXmlRepository dataXml)
         {
             _dataXml = dataXml;
         }
